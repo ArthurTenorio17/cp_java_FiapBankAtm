@@ -18,6 +18,7 @@ public class FiapBankAtm {
         Scanner scanner = new Scanner(System.in);
 
         String senhaCadastrada;
+        String senhaDigitada;
         boolean senhaValida;
 
         System.out.println("=====================");
@@ -26,15 +27,32 @@ public class FiapBankAtm {
         System.out.println("=====================");
 
         do {
-            System.out.print("Cadastre uma senha (6 dígitos, sem repetição): ");
+            System.out.print("Cadastre uma senha: ");
             senhaCadastrada = scanner.nextLine();
 
             senhaValida = senhaCadastrada.matches("\\d{6}") && !temRepetido(senhaCadastrada);
 
-            if (!senhaValida) {
-                System.out.println("Senha inválida!");
-            }
-
         } while (!senhaValida);
+
+        int tentativas = 3;
+        boolean autenticado = false;
+
+        while (tentativas > 0) {
+            System.out.print("Digite sua senha: ");
+            senhaDigitada = scanner.nextLine();
+
+            if (senhaDigitada.equals(senhaCadastrada)) {
+                autenticado = true;
+                break;
+            } else {
+                tentativas--;
+                System.out.println("Senha incorreta! Tentativas: " + tentativas);
+            }
+        }
+
+        if (!autenticado) {
+            System.out.println("Acesso bloqueado!");
+            return;
+        }
     }
 }
